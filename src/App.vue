@@ -4,6 +4,8 @@ import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
 import { layouts } from './layouts';
 import { useStyleStore } from './stores/style.store';
+import { useI18n } from 'vue-i18n';
+import { useHead } from '@vueuse/head';
 
 const route = useRoute();
 const layout = computed(() => route?.meta?.layout ?? layouts.base);
@@ -13,11 +15,20 @@ const theme = computed(() => (styleStore.isDarkTheme ? darkTheme : null));
 const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrides : lightThemeOverrides));
 
 const { locale } = useI18n();
+syncRef(locale, useStorage('locale', locale));
 
-syncRef(
-  locale,
-  useStorage('locale', locale),
-);
+// 动态生成 hreflang 标签
+const locales = ['en', 'de', 'es', 'fr', 'pt', 'ru', 'uk', 'zh', 'vi'];
+const currentUrl = window.location.href;
+const baseUrl = currentUrl.split('/').slice(0, -1).join('/');
+
+useHead({
+  link: locales.map(lang => ({
+    rel: 'alternate',
+    hreflang: lang,
+    href: `${baseUrl}/${lang}${window.location.pathname}`,
+  })),
+});
 </script>
 
 <template>
