@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { RouterView, useRoute } from 'vue-router';
 import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from 'naive-ui';
+import { useI18n } from 'vue-i18n';
+import { useHead } from '@vueuse/head';
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
 import { layouts } from './layouts';
 import { useStyleStore } from './stores/style.store';
-import { useI18n } from 'vue-i18n';
-import { useHead } from '@vueuse/head';
 
 const route = useRoute();
 const layout = computed(() => route?.meta?.layout ?? layouts.base);
