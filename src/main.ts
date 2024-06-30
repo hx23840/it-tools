@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import { createHead } from '@vueuse/head';
 
 import { registerSW } from 'virtual:pwa-register';
+import { inject } from '@vercel/analytics';
 import { plausible } from './plugins/plausible.plugin';
 
 import 'virtual:uno.css';
@@ -12,6 +13,8 @@ import { naive } from './plugins/naive.plugin';
 import App from './App.vue';
 import router from './router';
 import { i18nPlugin } from './plugins/i18n.plugin';
+
+inject();
 
 registerSW();
 
