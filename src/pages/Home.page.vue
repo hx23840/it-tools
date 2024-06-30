@@ -5,7 +5,7 @@ import { useToolStore } from '@/tools/tools.store';
 
 const toolStore = useToolStore();
 
-useHead({ title: '7ools - Handy online tools for developers' });
+useHead({ title: '7ools - Handy Online Tools for Everyone' });
 const { t } = useI18n();
 </script>
 
