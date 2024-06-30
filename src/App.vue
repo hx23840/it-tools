@@ -3,6 +3,8 @@ import { RouterView, useRoute } from 'vue-router';
 import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from 'naive-ui';
 import { useI18n } from 'vue-i18n';
 import { useHead } from '@vueuse/head';
+import { computed, onMounted } from 'vue';
+import { syncRef, useStorage } from '@vueuse/core';
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
 import { layouts } from './layouts';
 import { useStyleStore } from './stores/style.store';
@@ -19,15 +21,17 @@ syncRef(locale, useStorage('locale', locale));
 
 // 动态生成 hreflang 标签
 const locales = ['en', 'de', 'es', 'fr', 'pt', 'ru', 'uk', 'zh', 'vi'];
-const currentUrl = window.location.href;
-const baseUrl = currentUrl.split('/').slice(0, -1).join('/');
+onMounted(() => {
+  const currentUrl = window.location.href;
+  const baseUrl = currentUrl.split('/').slice(0, -1).join('/');
 
-useHead({
-  link: locales.map(lang => ({
-    rel: 'alternate',
-    hreflang: lang,
-    href: `${baseUrl}/${lang}${window.location.pathname}`,
-  })),
+  useHead({
+    link: locales.map(lang => ({
+      rel: 'alternate',
+      hreflang: lang,
+      href: `${baseUrl}/${lang}${window.location.pathname}`,
+    })),
+  });
 });
 </script>
 
